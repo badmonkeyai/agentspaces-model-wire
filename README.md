@@ -5,7 +5,7 @@ entries, as one small artifact with no dependencies:
 
 | Records | Written by |
 | --- | --- |
-| `ModelRequest`, `ModelResponse`, `ModelChunk`, `ModelCancel`, `ModelAttempt`, and the `Wire*` parts they carry (`WireMessage`, `WireToolCall`, `WireToolResponse`, `WireToolDefinition`, `WireOptions`, `WireGeneration`, `WireUsage`, `WireMedia`) | the model service: `FleetChatModel` and `ModelServer` in `agentspaces-springai` (Spring AI) and `agentspaces-micronaut-langchain4j` (LangChain4j) |
+| `ModelRequest`, `ModelResponse`, `ModelChunk`, `ModelCancel`, `ModelAttempt`, and the `Wire*` parts they carry (`WireMessage`, `WireToolCall`, `WireToolResponse`, `WireToolDefinition`, `WireOptions`, `WireGeneration`, `WireUsage`, `WireMedia`) | the model service: `FleetChatModel` and `ModelServer` in `agentspaces-springai` (Spring AI) and `agentspaces-langchain4j` (LangChain4j on any host, which `agentspaces-micronaut-langchain4j` wires) |
 | `ConversationSnapshot` | chat memory in a space: `SpaceChatMemoryRepository` (Spring AI) and `SpaceChatMemoryStore` (LangChain4j) |
 | `ModelUsage` | fleet-wide token usage on both |
 
@@ -20,6 +20,13 @@ The package is `ai.badmonkey.agentspaces.springai.model.wire`, where the
 records were born. Renaming it would change the schema name on the wire, so
 it stays until a protocol version change.
 
+The artifact is on Maven Central under the group `ai.badmonkey.agentspaces`,
+with no dependencies of its own. `agentspaces-springai`,
+`agentspaces-langchain4j`, and `agentspaces-micronaut-langchain4j` bring it in transitively; add it directly
+only to read or write the records from code of your own.
+
+Maven (`pom.xml`):
+
 ```xml
 <dependency>
   <groupId>ai.badmonkey.agentspaces</groupId>
@@ -28,12 +35,28 @@ it stays until a protocol version change.
 </dependency>
 ```
 
+Gradle Kotlin DSL (`build.gradle.kts`):
+
+```kotlin
+dependencies {
+    implementation("ai.badmonkey.agentspaces:agentspaces-model-wire:0.2.0")
+}
+```
+
+Gradle Groovy DSL (`build.gradle`):
+
+```groovy
+dependencies {
+    implementation 'ai.badmonkey.agentspaces:agentspaces-model-wire:0.2.0'
+}
+```
+
 `WireGoldenTest` pins the canonical CBOR bytes of every record in
 `wire-golden.properties`, shipped inside the jar so the consumers' suites
 read the same vectors from the classpath. After a deliberate record change, regenerate with
 `mvn test -Dwire.golden.write=true` and bump the version. `mvn clean install`
-builds it; both consuming projects resolve it from the local repository (or
-Maven Central once published).
+builds it; both consuming projects resolve it from Maven Central, or from the
+local repository when building against unreleased sources.
 
 ## Releasing
 
