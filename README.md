@@ -31,7 +31,7 @@ Maven (`pom.xml`):
 <dependency>
   <groupId>ai.badmonkey.agentspaces</groupId>
   <artifactId>agentspaces-model-wire</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
@@ -39,7 +39,7 @@ Gradle Kotlin DSL (`build.gradle.kts`):
 
 ```kotlin
 dependencies {
-    implementation("ai.badmonkey.agentspaces:agentspaces-model-wire:0.2.0")
+    implementation("ai.badmonkey.agentspaces:agentspaces-model-wire:0.3.0")
 }
 ```
 
@@ -47,7 +47,7 @@ Gradle Groovy DSL (`build.gradle`):
 
 ```groovy
 dependencies {
-    implementation 'ai.badmonkey.agentspaces:agentspaces-model-wire:0.2.0'
+    implementation 'ai.badmonkey.agentspaces:agentspaces-model-wire:0.3.0'
 }
 ```
 
