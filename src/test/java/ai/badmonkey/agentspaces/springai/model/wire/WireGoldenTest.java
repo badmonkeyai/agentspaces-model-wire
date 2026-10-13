@@ -64,6 +64,7 @@ class WireGoldenTest {
         v.put("ModelCancel", new ModelCancel("req-1", "analyst"));
         v.put("ConversationSnapshot", new ConversationSnapshot("conv-1", 2, List.of(user)));
         v.put("ModelUsage", new ModelUsage("gpt-4.1-mini", "openai", 12, 34, 46, "analyst", "peer-b"));
+        v.put("ModelUsageTotal", new ModelUsageTotal("gpt-4.1-mini", "peer-b", 120, 340, 460, 1700000000000L));
         v.put("ModelAttempt", new ModelAttempt("req-1", 2, "peer-c"));
         return v;
     }
