@@ -58,6 +58,10 @@ read the same vectors from the classpath. After a deliberate record change, rege
 builds it; both consuming projects resolve it from Maven Central, or from the
 local repository when building against unreleased sources.
 
+## The gateway convention (v0.1.24, ISSUE-ModelCard)
+
+A peer advertising `aspace:cap/llm-gateway` (parameters `tasks`, `policyVersion`, `coordination`) routes model requests for its group. A `ModelRequest` is the gateway's when it is written with the tag `task=<kind>` (`chat`, `embed`, `rerank`, `classify`, `transcribe`, `vision`) or when its `model` is the gateway's advertised model name; a request addressed to a model name a `ModelServer` advertises is unchanged and the server answers it as before. The gateway chooses a server by its routing policy, forwards the request under a new request id addressed to the chosen model, screens the prompt and the completion through `agentspaces-guardrail`, and completes the original take with the response (or a structured failure naming the check that refused it, in `ModelResponse.error`). A `ModelCard` advertisement (SPEC §6.1a.1) names the models a group may route to.
+
 ## Releasing
 
 The `central-publish` profile attaches the sources and javadoc jars, signs
